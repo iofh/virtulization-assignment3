@@ -1,0 +1,27 @@
+#Irving Gan
+version: "3.7"
+services:
+        flaskapp:
+                image: iofh/flaskapp:latest
+                deploy:
+                        replicas: 3
+                networks:
+                        - app
+        nginx:
+                image: iofh/nginx:latest
+                deploy:
+                        replicas: 3
+                ports:
+                        - 8080:80
+                networks:
+                        - app
+                depends_on:
+                        - flaskapp
+       redis:
+                image: redis:5.0.6
+                networks:
+                        - app
+networks:
+        app:
+                driver: overlay
+
